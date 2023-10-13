@@ -1,18 +1,25 @@
+from flask_login import UserMixin
+
 from application import db
 from datetime import datetime
 
-class User(db.Model):
+class User(db.Model, UserMixin):
 
     __tablename__ = "users"
     id                = db.Column(db.Integer, primary_key  = True)
     status            = db.Column(db.Boolean, default      = True)
     username          = db.Column(db.Text(128), nullable   = False)
     fullname          = db.Column(db.Text(128), nullale    = False)
-    profile_photo_url = db.Column(db.String(255), nullable = False)
+    profile_photo_url = db.Column(db.String(255), default = "default.jpg")
     bio               = db.Column(db.String(128))
     created_date      = db.Column(db.DateTime(), default   = datetime.utcnow)
     email             = db.Column(db.Text(64), nullable = False)
-    
+    following_users   = db.relationship("Relation", foreign_keys = "Relation.ig_following", backref = "following", lazy=True)
+    follower_users    = db.relationship("Relation", foreign_keys = "Relation.ig_follower", backref = "follower", lazy=True)
+    posts             = db.relationship("Post", backref = "posts_owner", lazy = True)
+    likes             = db.relationship("Like", backref = "likes_owner", lazy = True)
+    comments          = db.relationship("Comment", backref = "comments_owner", lazy = True)
+
 
 class Relation(db.Model):
 
@@ -21,7 +28,7 @@ class Relation(db.Model):
     follower_id   = db.Column(db.Interger, db.ForeignKey("users.id"), nullable = False)
     following_id  = db.Column(db.Interger, db.ForeignKey("users.id"), nullable = False)
     status        = db.Column(db.Boolean, default     = True)
-    relation_date  = db.Column(db.DateTime, nullable  = False)
+    relation_date = db.Column(db.DateTime, nullable  = False)
 
 class Post(db.Model):
 
@@ -32,6 +39,8 @@ class Post(db.Model):
     caption      = db.Column(db.Text, nullable        = False)
     post_date    = db.Column(db.DateTime, nullable    = False)
     status       = db.Column(db.Boolean, default      = True)
+    comments     = db.relationship("Comment", backref = "commented", lazy = True)
+    likes        = db.relationship("Like", backref = "liked", lazy = True)
 
 class Comment(db.Model): 
 
