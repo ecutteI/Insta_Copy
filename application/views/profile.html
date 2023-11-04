@@ -1,13 +1,29 @@
 {% extends "layout.html" %}
 
 {% block content %}
-    <h1>Hi - {{ current_user.fullname }}</h1>
-{% endblock content %}
+    <div class="profile-container">
+        <div class="profile-picture"></div>
+            <div class="profile-username">bay3m</div>
+            <div class="profile-bio">Deskripsi singkat profil Anda.</div>
+            <div class="profile-stats">
+                <div class="profile-stats-item">
+                    <span class="profile-stats-count">4</span> Post
+                </div>
+                <div class="profile-stats-item">
+                    <span class="profile-stats-count">1000</span> Followers
+                </div>
+                <div class="profile-stats-item">
+                    <span class="profile-stats-count">500</span> Following
+                </div>
+            </div>
+        </div>
+    </div>
 
-sex
-sex
-sex
-sex
-sex
-sex
-sex
+    <div class="image-container">
+        {% for post in posts %}
+        <div class="image-item"><img src="{{ url_for('static', filename='' + post.photo) }}" alt="Post Image"></div>
+        {% endfor %}
+    </div>
+
+    
+{% endblock content %}

@@ -9,7 +9,7 @@ from application.utils import save_image
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('profile'))
+        return redirect(url_for('index'))
 
     form = LoginForm()
 
@@ -20,7 +20,7 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user and password == user.password:
             login_user(user)
-            return redirect(url_for('profile'))
+            return redirect(url_for('profile', username = username))
         else:
             flash('Invalid username or password', 'error')
 
@@ -40,14 +40,15 @@ def logout():
 @app.route('/<string:username>')
 @login_required
 def profile(username):
-    return render_template('profile.html', title=f'{current_user.fullname} Profile')
+    posts = current_user.posts
+    reverse_posts = posts[::-1]
+    return render_template('profile.html', title=f'{current_user.fullname} Profile', posts=reverse_posts)
+
 
 @app.route('/', methods=['GET', 'POST'])
 @login_required
 def index():
     form = CreatePostForm()
-
-    posts = Post.query.filter_by(author_id = current_user.id).all()
 
     if form.validate_on_submit():
         post = Post(
@@ -75,5 +76,6 @@ def signup():
 def about():
     return render_template('about.html', title='About')
 
-if __name__ == '__main__':
-    app.run(debug=True)
+@app.route('/forgot')
+def forgot():
+    return render_template('forgot_pass.html', title='Forgot Password')
