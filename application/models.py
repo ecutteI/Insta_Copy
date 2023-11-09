@@ -56,5 +56,3 @@ class Like(db.Model):
     post_id         = db.Column(db.Integer, db.ForeignKey("posts.id"), nullable = False)
     status          = db.Column(db.Boolean, default=True)
     like_date       = db.Column(db.DateTime, default=datetime.utcnow)
-
-print("sex")

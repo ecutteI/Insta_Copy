@@ -1,5 +1,34 @@
 {% extends 'layout.html' %}
 
 {% block content %}
+    <div class="">
+        <form method="POST" action="">
+            <fieldset class="">
+                <legend class="">Forgot your password?</legend>
 
+                <div class="">
+                    {{ form.email.label(class="") }}
+
+                    {% if form.email.errors%}
+                        {{ form.email(class="") }}
+                        <div class="">
+                            {% for error in form.email.errors %}
+                                <span>{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        {{ form.email(class=" ") }}
+                    {% endif %}
+
+                </div>
+            </fieldset>
+            <div class="">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+            <small class="">
+                <a href="{{ url_for('signup') }}">Register...</a>
+            </small>
+
+        </form>
+    </div>
 {% endblock content %}
