@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request
+from flask import render_template, redirect, url_for, flash, request, make_response, jsonify
 from flask_login import login_user, login_required, logout_user, current_user
 
 from application import app
@@ -94,6 +94,21 @@ def signup():
 def about():
     return render_template('about.html', title='About')
 
-@app.route('/forgot')
+@app.route('/forgot' )
 def forgot():
-    return render_template('forgot_pass.html', title='Forgot Password')
+    form = ForgotPasswordForm()
+    return render_template('forgot_pass.html', title='Forgot Password', form=form)
+
+@app.route("/like/<int:post_id>", methods=["POST"])
+@login_required
+def like(post_id):
+    like = Like.query.filter_by(user_id = current_user, post_id = post_id).first()
+    if not like:
+        like = Like(user_id = current_user.id, post_id = post_id)
+        db.session.add(like)
+        db.session.commit()
+        return make_response(200, jsonify({"status" : True}))
+    
+    db.session.delete(like)
+    db.session.commit()
+    return make_response(403, jsonify({"status" : False}))

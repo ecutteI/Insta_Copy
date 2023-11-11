@@ -55,7 +55,7 @@
         }
 
         .image-item {
-            flex: 0 0 calc(33.33% - 20px); /* Adjust the width and margin as needed */
+            flex: 0 0 calc(33.33% - 20px);
             margin: 10px;
             box-sizing: border-box;
             overflow: hidden;
@@ -145,6 +145,14 @@
         .profile-stats-count {
             font-weight: bold;
         }
+        .post-header {
+            display: flex;
+            gap: 10px;
+        }
+        .post-header img {
+            border-radius: 50%;
+        }
+
     </style>
     {% if title %}
         <title>{{ title }} - Website</title>
