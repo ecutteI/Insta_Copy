@@ -56,6 +56,9 @@
         <div class="">
             {{ form.submit(class="btn btn-outline-info") }}
         </div>
+        <small class="">
+            <a href="{{ url_for('reset') }}">Reset password...</a>
+        </small>
     </form>
 </div>
 {% endblock content %}

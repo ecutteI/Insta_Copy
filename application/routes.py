@@ -101,14 +101,21 @@ def forgot():
 
 @app.route("/like/<int:post_id>", methods=["POST"])
 @login_required
-def like(post_id):
-    like = Like.query.filter_by(user_id = current_user, post_id = post_id).first()
+def like():
+    data = request.json
+    post_id = int(data['postId'])
+    like = Like.query.filter_by(user_id = current_user.id, post_id = post_id).first()
     if not like:
         like = Like(user_id = current_user.id, post_id = post_id)
         db.session.add(like)
         db.session.commit()
-        return make_response(200, jsonify({"status" : True}))
+        return make_response(jsonify({"status" : True}), 200)
     
     db.session.delete(like)
     db.session.commit()
-    return make_response(403, jsonify({"status" : False}))
+    return make_response(jsonify({"status" : False}), 200)
+
+@app.route("/reset", methods=["GET", "POST"])
+def reset():
+    form = ResetPasswordForm
+    return render_template('reset.html', title="Reset Password",form = form)

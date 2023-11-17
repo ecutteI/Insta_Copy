@@ -36,7 +36,7 @@
                 <p>{{ post.caption }} </p>
 
                 <div class="post-footer">
-                    <span id="likeBtn" data-post-id="{{ post.id }}">❤</span><span id="likeCounter">{{ post.likes | length }}</span>
+                    <span id="likeBtn" data-post-id="{{ post.id }}">💖</span><span id="likeCounter">{{ post.likes | length }}</span>
                     <span id="commentBtn" data-post-id="{{ post.id }}">🚩</span><span id="commentCounter">{{ post.comment | length }}</span>
                 </div>
 
@@ -46,20 +46,18 @@
     <script>
         document.querySelectorAll("#likeBtn").forEach(btn => {
             btn.addEventListener("click", function(){
-                console.log(this.dataset.postId);
-                const xhr = new XMLHttpRequest();
-                xhr.open("POST", '/like/${this.dataset.postId}', true);
+                const xhr = new XMLHttpRequest()
+                xhr.open('POST', 'http://http://127.0.0.1:5000//like', true)
                 xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-
+                
                 xhr.onload = function(){
                     if (xhr.status === 200){
                         const response = JSON.parse(xhr.responseText);
                         console.log(response.status);
                     }
                 };
-
-                xhr.send();
-                
+                const data = JSON.stringify({ 'postId' : this.data.postId });
+                xhr.send(data);
             })
         });
     </script>
