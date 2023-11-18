@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="edit-post-group">
+    <form method="POST" action="">
+      {{ form.hidden_tag() }}
+  
+      <fieldset class="edit-post-group">
+        <label class="edit-post-label">{{ form.caption.label }}</label>
+  
+        {% if form.caption.errors %}
+          <div class="edit-post-group">
+            {% for error in form.caption.errors %}
+              <span class="error-message">{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          {{ form.caption(class="form-control") }}
+        {% endif %}
+      </fieldset>
+  
+      <div class="edit-post-group">
+        {{ form.submit(class="btn btn-outline-info") }}
+      </div>
+    </form>
+  </div>
+{% endblock content %}

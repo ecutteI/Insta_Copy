@@ -36,32 +36,39 @@ def logout():
 @login_required
 def profile(username):
     posts = current_user.posts
-    reverse_posts = posts[::-1]
-    return render_template('profile.html', title=f'{current_user.fullname} Profile', posts=reverse_posts)
+    posts.reverse()
+    return render_template('profile.html', title=f'{current_user.fullname} Profile', posts = posts)
 
-@app.route('/edit', methods=['GET', 'POST'])
+@app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required
-def edit():
+def edit_profile():
     form = EditProfileForm()
 
+    user = User.query.filter_by(id=current_user.id).first()
+    tmp1, tmp2 = user.join_date, user.status
+    print(user.username)
     if form.validate_on_submit():
-        user = User.query.get(current_user.id)
-        if form.username.data != user.username:
-            user.username = form.username.data
+        user.username = form.username.data
         user.fullname = form.fullname.data
+        user.email    = form.email.data
+        user.profile_pic = save_image(form.profile_pic.data)
+        if user.profile_pic == None:
+            user.profile_pic = "default.png"
         user.bio = form.bio.data
+        user.join_date = tmp1
+        user.status = tmp2
+        db.session.commit()        
+        flash('Your profile is successfully updated!')
 
-        if form.profile_pic.data:
-            pass
-        db.session.commit()
-        flash("Profile updated", "success")
-        return redirect(url_for('profile', username=current_user.username))
-    
-    form.username.data = current_user.username
-    form.fullname.data = current_user.fullname
-    form.bio.data = current_user.bio
-    
-    return render_template("edit.html", tutle=f"Edit {current_user.username} Profile", form=form)
+        return render_template('profile.html', title=f'{current_user.fullname} Profile', posts = current_user.posts)
+
+    elif request.method == 'GET':
+        form.username.data = user.username
+        form.fullname.data = user.fullname
+        form.email.data = user.email
+        form.bio.data = user.bio
+
+    return render_template('edit_profile.html', title='Edit Profile', form = form, username=user.username)
 
 @app.route('/', methods=['GET', 'POST'])
 @login_required
@@ -99,14 +106,14 @@ def forgot():
     form = ForgotPasswordForm()
     return render_template('forgot_pass.html', title='Forgot Password', form=form)
 
-@app.route("/like/<int:post_id>", methods=["POST"])
+@app.route('/like', methods=['GET', 'POST'])
 @login_required
 def like():
     data = request.json
     post_id = int(data['postId'])
-    like = Like.query.filter_by(user_id = current_user.id, post_id = post_id).first()
+    like = Like.query.filter_by(user_id=current_user.id,post_id=post_id).first()
     if not like:
-        like = Like(user_id = current_user.id, post_id = post_id)
+        like = Like(user_id=current_user.id, post_id=post_id)
         db.session.add(like)
         db.session.commit()
         return make_response(jsonify({"status" : True}), 200)
@@ -119,3 +126,21 @@ def like():
 def reset():
     form = ResetPasswordForm
     return render_template('reset.html', title="Reset Password",form = form)
+
+@app.route('/edit_post/<string:id>', methods=['GET', 'POST'])
+@login_required
+def edit_post(id):
+
+    form = EditPostForm()
+
+    post = Post.query.get(id)
+
+    if form.validate_on_submit():
+        post.caption = form.caption.data
+        db.session.commit()
+        return redirect(url_for('index', username = current_user.username))
+
+    elif request.method == 'GET':
+        form.caption.data = post.caption
+
+    return render_template('edit_post.html', title='Edit Post', form = form)

@@ -27,7 +27,7 @@
 
     <div class="post-container">
         {% for post in posts %}
-            <div class="post" style="border: 1px black solid; margin: 10px  0px;">
+            <div class="post">
                 <div class="post-header">
                     <img src="{{ url_for('static', filename='images/' + post.posts_owner.profile_pic) }}" alt="Post owner" style="height: 30px; width: auto;">
                     <h2>{{ post.posts_owner.username }}</h2>
@@ -44,22 +44,22 @@
         {% endfor %}
     </div>
     <script>
-        document.querySelectorAll("#likeBtn").forEach(btn => {
-            btn.addEventListener("click", function(){
-                const xhr = new XMLHttpRequest()
-                xhr.open('POST', 'http://http://127.0.0.1:5000//like', true)
+         document.querySelectorAll("#likeBtn").forEach(btn => {
+            btn.addEventListener('click', function(){
+                const xhr = new XMLHttpRequest();
+                xhr.open('POST', 'http://127.0.0.1:5000/like', true);
                 xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
-                
-                xhr.onload = function(){
-                    if (xhr.status === 200){
+
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
                         const response = JSON.parse(xhr.responseText);
                         console.log(response.status);
-                    }
+                    } 
                 };
-                const data = JSON.stringify({ 'postId' : this.data.postId });
+                const data = JSON.stringify({ 'postId': this.dataset.postId });
                 xhr.send(data);
             })
-        });
+        })
     </script>
     <div class="pagination-box">
         {% for page_number in posts.iter_pages() %}
