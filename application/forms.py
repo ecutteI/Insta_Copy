@@ -29,9 +29,9 @@ class EditProfileForm(SignUpForm):
     submit              = SubmitField("Update profile")
 
 class ResetPasswordForm(FlaskForm):
-    old_password         = PasswordField("Old password", validators=[DataRequired(), Length(min=8)])
-    new_password         = PasswordField("New password", validators=[DataRequired(), Length(min=8)])
-    confirm_new_password = PasswordField("Confirm new password", validators=[DataRequired(), Length(min=8), EqualTo("new_password")])
+    old_password         = PasswordField("Old password", validators=[DataRequired(), Length(min=6)])
+    new_password         = PasswordField("New password", validators=[DataRequired(), Length(min=6)])
+    confirm_new_password = PasswordField("Confirm new password", validators=[DataRequired(), Length(min=6), EqualTo("new_password")])
     submit               = SubmitField("Reset password")
 
 class ForgotPasswordForm(FlaskForm):
@@ -40,8 +40,8 @@ class ForgotPasswordForm(FlaskForm):
     submit              = SubmitField("Send link verification to email")
 
 class VerificationResetPasswordForm(FlaskForm):
-    password            = PasswordField("New password", validators=[DataRequired(), Length(min=8)])
-    confirm_password    = PasswordField("Confirm new password", validators=[DataRequired(), Length(min=8), EqualTo("password")])
+    password            = PasswordField("New password", validators=[DataRequired(), Length(min=6)])
+    confirm_password    = PasswordField("Confirm new password", validators=[DataRequired(), Length(min=6), EqualTo("password")])
     submit              = SubmitField("Reset password")
 
 class CreatePostForm(FlaskForm):
