@@ -41,7 +41,7 @@ There are still some features that are non-functional like the Edit Profile (i c
    ```bash
    python3 app.py
    ```
-3. Go and navigate to'http://127.0.0.1:5000/'.
+3. Go and navigate to 'http://127.0.0.1:5000/'.
 
 4. Explore as much as you want and test the features that i have provided.
 
