@@ -1,7 +1,7 @@
 # Insta_Copy
 
 ## Description
-This is application is a simple, bootleg copy of Instagram, made with Python, HTML, and CSS.
+This is application is a simple copy of Instagram, made with Python, HTML, and CSS.
 There are still some features that are non-functional like the Edit Profile (i cant find what is wrong with it, im sorry)
 
 ## Installation
