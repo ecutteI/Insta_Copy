@@ -124,9 +124,25 @@ def like():
 
 @app.route("/reset", methods=["GET", "POST"])
 def reset():
-    form = ResetPasswordForm
-    return render_template('reset.html', title="Reset Password",form = form)
+    form = ResetPasswordForm()
 
+    user = User.query.filter_by(id=current_user.id).first()
+
+    if form.validate_on_submit():
+        if user.password == form.new_password.data:
+            flash('You cannot change your password to the same one')
+        elif form.new_password.data != form.confirm_new_password.data:
+            flash('Password and confirm password do not match')
+        elif user.password != form.old_password.data:
+            flash('Password is not correct')
+        else:
+            user.password = form.new_password.data
+            posts = current_user.posts
+            db.session.commit()
+
+            return render_template('profile.html', title=f'{current_user.fullname} Profile', posts = posts)
+
+    return render_template('reset.html', title='Reset', form = form)
 @app.route('/edit_post/<string:id>', methods=['GET', 'POST'])
 @login_required
 def edit_post(id):
