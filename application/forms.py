@@ -15,8 +15,8 @@ class SignUpForm(FlaskForm):
     username            = StringField("Username", validators=[DataRequired(), Length(min=4, max=12), exists_username])
     fullname            = StringField("Full name", validators=[DataRequired(), Length(min=4, max=16)])
     email               = EmailField("Email", validators=[DataRequired(), Email(), exists_email])
-    password            = PasswordField("Password", validators=[DataRequired(), Length(min=8)])
-    confirm_password    = PasswordField("Confirm password", validators=[DataRequired(), Length(min=8), EqualTo("password")])
+    password            = PasswordField("Password", validators=[DataRequired(), Length(min=6)])
+    confirm_password    = PasswordField("Confirm password", validators=[DataRequired(), Length(min=6), EqualTo("password")])
     submit              = SubmitField("Sign up")
 
 class EditProfileForm(SignUpForm):

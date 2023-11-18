@@ -1,10 +1,10 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-    <div class="">
+    <div class="forgot-pass-form">
         <form method="POST" action="">
-            <fieldset class="">
-                <legend class="">Forgot your password?</legend>
+            <fieldset class="forgot-pass-field">
+                <legend class="forgot-pass-title">Forgot your password?</legend>
 
                 <div class="">
                     {{ form.email.label(class="") }}
@@ -22,7 +22,7 @@
 
                 </div>
             </fieldset>
-            <div class="">
+            <div class="forgot-pass-submit">
                 {{ form.submit(class="btn btn-outline-info") }}
             </div>
             <small class="">
