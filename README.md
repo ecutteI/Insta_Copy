@@ -48,3 +48,8 @@ There are still some features that are non-functional like the Edit Profile (i c
 ## Issues
 - "Edit Profile" are still non-functional
 - There are still more issues that i may not known of, my apologies if you find any of that issues
+- Sign up is still on working, please use the account:
+     - username :
+        fdel
+     - password :
+        123456
