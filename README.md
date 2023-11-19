@@ -14,7 +14,7 @@ There are still some features that are non-functional like the Edit Profile (i c
 3. Navigate to the project directory:
 
    ```bash
-   cd Insta-Copy
+   cd Insta_Copy
    ```
 4. Create an environment:
 
