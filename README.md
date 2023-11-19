@@ -46,5 +46,6 @@ There are still some features that are non-functional like the Edit Profile (i c
 4. Explore as much as you want and test the features that i have provided.
 
 ## Issues
-- "Edit Profile" are still kind off broken
+- Edit Profile are still kind of broken
+- Forgot Password are unusable
 - There are still more issues that i may not known of, my apologies if you find any of that issues
