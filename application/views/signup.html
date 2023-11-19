@@ -1,12 +1,11 @@
 {% extends 'layout.html' %}
 
 {% block content %}
-<div class="signup-container">
-
+<div class="">
     <form method="POST" action="">
         {{ form.hidden_tag() }}
-        <h2 class="signup-title">Daftar</h2>
-        <fieldset class="signup-form">
+        <fieldset class="">
+            <legend class="">Daftar</legend>
 
             <div class="">
                 {{ form.username.label(class="") }}
@@ -88,12 +87,13 @@
 
             </div>
         </fieldset>
-        <div class="">
+        <div class="" style="width: 95%; padding-top: 5px;">
             {{ form.submit(class="btn btn-outline-info") }}
+            <small class="">
+                <a href="{{ url_for('login') }}">Sudah punya akun?</a>
+            </small>
         </div>
-        <small class="">
-            <a href="{{ url_for('login') }}">Sudah punya akun?</a>
-        </small>
+        
 
     </form>
 </div>

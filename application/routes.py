@@ -92,10 +92,24 @@ def index():
 
     return render_template('index.html', title='Home', form=form, posts=posts)
 
-@app.route('/signup', methods = ['GET', 'POST'])
+@app.route('/signup', methods=['GET', 'POST'])
 def signup():
     form = SignUpForm()
-    return render_template('signup.html', title='SignUp', form=form)
+
+    if form.validate_on_submit():
+        user = User(
+            username = form.username.data,
+            password = form.password.data,
+            fullname = form.fullname.data,
+            email    = form.email.data,
+            profile_pic = 'default.jpg'
+        )
+        db.session.add(user)
+        db.session.commit()
+        flash(f'You have successfully created account "{user.username}"')
+
+        return redirect(url_for('login'))
+    return render_template('signup.html', title='Sign Up', form=form)
 
 @app.route('/about')
 def about():
@@ -121,6 +135,11 @@ def like():
     db.session.delete(like)
     db.session.commit()
     return make_response(jsonify({"status" : False}), 200)
+
+@app.route('/verif')
+def verif():
+    form = VerificationResetPasswordForm()
+    return render_template('verif.html', title='Verif', form = form)
 
 @app.route("/reset", methods=["GET", "POST"])
 def reset():
